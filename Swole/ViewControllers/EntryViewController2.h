@@ -47,8 +47,7 @@
 @property NSMutableDictionary *exercises;
 @property NSString *currentExercise;
 @property NSIndexPath *currentExerciseCellIndexPath;
-@property int collapseStart;
-@property int collapseEnd;
+@property NSIndexPath *lastSelectedCellIndexPath;
 
 /**
  *  Methods that help set-up.

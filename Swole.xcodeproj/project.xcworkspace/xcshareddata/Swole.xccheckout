@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E79009A6-4965-4C93-AA30-CAE73225D903</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Swole</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>A08A37B3AB461C982F8685CA0F567C13FD281ECA</key>
+		<string>https://github.com/v-y-l/Swole.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Swole.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>A08A37B3AB461C982F8685CA0F567C13FD281ECA</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/v-y-l/Swole.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>A08A37B3AB461C982F8685CA0F567C13FD281ECA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A08A37B3AB461C982F8685CA0F567C13FD281ECA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Swole</string>
+		</dict>
+	</array>
+</dict>
+</plist>

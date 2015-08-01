@@ -37,6 +37,64 @@
     return self;
 }
 
+/**
+ *  Returns the number of visible items in an array.
+ *
+ *  @param dataArray array
+ *
+ *  @return number of visible items in array given
+ */
++ (NSUInteger) countVisible:(NSArray *)dataArray {
+    int numTotal = [dataArray count];
+    int numHidden = 0;
+    for (EntryCellData *entryCellData in dataArray) {
+        if (entryCellData.type == INFORMATION) {
+            BOOL hidden = [entryCellData.attributes[@"Hidden"] boolValue];
+            if (hidden) {
+                numHidden++;
+            }
+        }
+    }
+    return numTotal - numHidden;
+}
+
+/**
+ *  Given a data array and a selected exercises, 
+ *  returns the same data array but hides the information
+ *  under the given exercise.
+ *
+ *  @param exercise  selected exercise
+ *  @param dataArray data for a given entry
+ *
+ *  @return data array with information for the selected exercise hidden
+ */
++ (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray {
+    NSMutableArray *hiddeInfoMutableArray = [[NSMutableArray alloc] initWithObjects: nil];
+    int indexOfDataArray = 0;
+    while (![dataArray[indexOfDataArray] isEqual: exercise]) {//add everything up until the exercise
+        [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
+        indexOfDataArray++;
+    }
+    
+    EntryCellData *entryCellData = dataArray[indexOfDataArray];//the selected exercise, at this point in execution
+    do {
+        if (entryCellData.type == INFORMATION) {//process only info
+            NSMutableDictionary *infoAttributes = [entryCellData.attributes mutableCopy];
+            [infoAttributes setValue:[NSNumber numberWithBool:YES] forKey:@"Hidden"];
+            entryCellData.attributes = [infoAttributes copy];
+        }
+        [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
+        indexOfDataArray++;
+    } while (entryCellData.type == INFORMATION);
+    
+    while (indexOfDataArray < [dataArray count]) {//add everything else
+        [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
+        indexOfDataArray++;
+    }
+    
+    return [hiddeInfoMutableArray copy];
+}
+ 
 + (NSArray *)convertEntryToEntryCellDataArray:(Entry *)entry {
     NSMutableArray *cellDataArray = [[NSMutableArray alloc] initWithObjects: nil];
     
@@ -56,13 +114,6 @@
     NSDictionary *informationAttributes;
     EntryCellData *exerciseCellData;
     EntryCellData *infoCellData;
-
-    //work in progress - for collapsing cells
-//    NSMutableDictionary *infoRangeDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys: nil]; //will be placed in the last index, a dictionary that maps the exercises to the range of its associated information's first and last index, used for expanding and collapsing cells
-//    
-//    NSRange infoRange;
-//    NSUInteger loc;
-//    NSUInteger len;
     
     int setNumber;
     
@@ -78,7 +129,7 @@
         //Process individual exercises
         NSMutableArray *infoArray = exercises[exerciseName];
         for (Information *info in infoArray) {
-            informationAttributes = [[NSDictionary alloc] initWithObjectsAndKeys: info.reps, @"Reps", info.weight, @"Weight", exerciseName, @"Parent Exercise Name", [NSNumber numberWithInt:setNumber], @"Set Number", nil];
+            informationAttributes = [[NSDictionary alloc] initWithObjectsAndKeys: info.reps, @"Reps", info.weight, @"Weight", exerciseName, @"Parent Exercise Name", [NSNumber numberWithInt:setNumber], @"Set Number", [NSNumber numberWithBool:NO], @"Hidden", nil];
             infoCellData = [[EntryCellData alloc] initInformationWithAttributes:informationAttributes];
             [cellDataArray addObject:infoCellData];
             setNumber++;

@@ -16,7 +16,7 @@
     CGRect navigationBarButtonFrame;
     CGRect repsAndWeightKeyboardViewFrameIn;
     CGRect repsAndWeightKeyboardViewFrameOut;
-    
+    BOOL firstClick;
     NSDictionary *descriptionCellTextLabelFontAttributes;
     NSDictionary *descriptionCellDetailTextLabelFontAttributes;
     NSDictionary *exerciseCellTextLabelFontAttributes;
@@ -41,6 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    firstClick = YES;
     [self loadFrames];
     [self loadFontAttributes];
     [self loadCreateExerciseBarButton];
@@ -185,6 +186,16 @@
     entryCellData.attributes = [mutableAttributes copy];
 }
 
+- (void) collapseExerciseCellAtIndexPath:(NSIndexPath *)indexPath {
+//    self.data = [EntryCellData hideInfoOfExercise: self.data[indexPath.row] InDataArray:self.data];
+//    [self.entryTableView reloadData];
+}
+
+- (void) expandExerciseCellAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+
 #pragma mark - Button Actions
 
 - (void) doCreateExerciseAlertView {
@@ -256,12 +267,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     EntryCellData *entryCellData = self.data[indexPath.row];
     if (entryCellData.type == EXERCISE) {
-        if ([self.currentExerciseCellIndexPath isEqual:indexPath]) { //if it's already selected, tap again to deselect
-            [self.entryTableView deselectRowAtIndexPath:indexPath animated:YES];
-            self.currentExerciseCellIndexPath = nil;
+        if ([self.lastSelectedCellIndexPath isEqual:indexPath]) {//manual deselection
+            [self collapseExerciseCellAtIndexPath:indexPath];
         } else {
-            self.currentExerciseCellIndexPath = indexPath;
+            [self expandExerciseCellAtIndexPath:indexPath]; //for current index path
         }
+        [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
+
         self.currentExercise = entryCellData.attributes[@"Exercise Name"];
         [self.repsAndWeightKeyboardViewController.repsField resignFirstResponder];
         [self.repsAndWeightKeyboardViewController.weightField resignFirstResponder];
@@ -269,13 +281,17 @@
     } else {
         [self slideRepsAndWeightKeyboardOut];
     }
+    self.lastSelectedCellIndexPath = indexPath;
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-        //call collapse cell here - finish
-    [self toggleCollapseOrExpandExercise:self.data[indexPath.row]];
-    [self.entryTableView reloadData];
-}
+//
+//- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+//        //call collapse cell here - finish
+//    [self toggleCollapseOrExpandExercise:self.data[indexPath.row]];
+//    [self.entryTableView reloadData];
+//}
+
+// You may only select EXERCISE cells
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     EntryCellData *entryCellData = (EntryCellData *) self.data[indexPath.row];
@@ -285,7 +301,7 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.data count];
+    return [EntryCellData countVisible:self.data];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

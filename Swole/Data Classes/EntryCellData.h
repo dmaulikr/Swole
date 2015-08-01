@@ -24,6 +24,17 @@ typedef NS_ENUM(NSInteger, EntryCellDataType) {
 - (instancetype) initExerciseWithAttributes:(NSDictionary *)attributes;
 - (instancetype) initInformationWithAttributes:(NSDictionary *)attributes;
 
++ (NSUInteger) countVisible:(NSArray *)dataArray;
++ (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray;
+
+/**
+ *  Given an Entry object, produces an array of EntryCellData that can be
+ *  easily parsed and converted into UITableViewCells.
+ *
+ *  @param entry Entry to be displayed as UITableView
+ *
+ *  @return NSArray of EntryCellData that represents the entry
+ */
 + (NSArray *) convertEntryToEntryCellDataArray: (Entry *)entry;
 
 @end
