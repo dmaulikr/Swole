@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, EntryCellDataType) {
 - (instancetype) initExerciseWithAttributes:(NSDictionary *)attributes;
 - (instancetype) initInformationWithAttributes:(NSDictionary *)attributes;
 
-+ (NSUInteger) countVisible:(NSArray *)dataArray;
++ (NSUInteger) countHidden:(NSArray *)dataArray;
 + (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray;
 
 /**

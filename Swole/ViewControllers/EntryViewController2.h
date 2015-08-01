@@ -48,6 +48,8 @@
 @property NSString *currentExercise;
 @property NSIndexPath *currentExerciseCellIndexPath;
 @property NSIndexPath *lastSelectedCellIndexPath;
+@property NSUInteger numberHidden;
+@property BOOL shouldOffsetByNumberHidden;
 
 /**
  *  Methods that help set-up.

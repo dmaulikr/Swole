@@ -187,8 +187,8 @@
 }
 
 - (void) collapseExerciseCellAtIndexPath:(NSIndexPath *)indexPath {
-//    self.data = [EntryCellData hideInfoOfExercise: self.data[indexPath.row] InDataArray:self.data];
-//    [self.entryTableView reloadData];
+    self.data = [EntryCellData hideInfoOfExercise: self.data[indexPath.row] InDataArray:self.data];
+    [self.entryTableView reloadData];
 }
 
 - (void) expandExerciseCellAtIndexPath:(NSIndexPath *)indexPath {
@@ -280,7 +280,6 @@
             [self expandExerciseCellAtIndexPath:indexPath]; //for current index path
             self.lastSelectedCellIndexPath = indexPath;
         }
-
         self.currentExercise = entryCellData.attributes[@"Exercise Name"];
         [self.repsAndWeightKeyboardViewController.repsField resignFirstResponder];
         [self.repsAndWeightKeyboardViewController.weightField resignFirstResponder];
@@ -307,7 +306,8 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [EntryCellData countVisible:self.data];
+    self.numberHidden =[EntryCellData countHidden:self.data];
+    return [self.data count] - self.numberHidden;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -322,8 +322,20 @@
     }
     
     
-    EntryCellData *entryCellData = self.data[indexPath.row];
+    EntryCellData *entryCellData = self.data[indexPath.row]; //self.numberHidden is initially 0
     NSDictionary *cellAttributes = entryCellData.attributes;
+    
+    if (entryCellData.type == INFORMATION) {
+        BOOL hidden = [entryCellData.attributes[@"Hidden"] boolValue];
+        if (hidden) {
+            self.shouldOffsetByNumberHidden = YES;
+        }
+    }
+    
+    if (self.shouldOffsetByNumberHidden) {
+        entryCellData = self.data[indexPath.row + self.numberHidden];
+        cellAttributes = entryCellData.attributes;
+    }
     
     //filling the text in textfields
     if (entryCellData.type == DESCRIPTION) {

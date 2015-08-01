@@ -44,8 +44,7 @@
  *
  *  @return number of visible items in array given
  */
-+ (NSUInteger) countVisible:(NSArray *)dataArray {
-    int numTotal = [dataArray count];
++ (NSUInteger) countHidden:(NSArray *)dataArray {
     int numHidden = 0;
     for (EntryCellData *entryCellData in dataArray) {
         if (entryCellData.type == INFORMATION) {
@@ -55,7 +54,7 @@
             }
         }
     }
-    return numTotal - numHidden;
+    return numHidden;
 }
 
 /**
@@ -68,6 +67,8 @@
  *
  *  @return data array with information for the selected exercise hidden
  */
+
+//some issues here. look here. current
 + (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray {
     NSMutableArray *hiddeInfoMutableArray = [[NSMutableArray alloc] initWithObjects: nil];
     int indexOfDataArray = 0;
@@ -85,6 +86,7 @@
         }
         [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
         indexOfDataArray++;
+        entryCellData = dataArray[indexOfDataArray];
     } while (entryCellData.type == INFORMATION);
     
     while (indexOfDataArray < [dataArray count]) {//add everything else
