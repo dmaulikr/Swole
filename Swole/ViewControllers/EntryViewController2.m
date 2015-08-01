@@ -267,12 +267,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     EntryCellData *entryCellData = self.data[indexPath.row];
     if (entryCellData.type == EXERCISE) {
-        if ([self.lastSelectedCellIndexPath isEqual:indexPath]) {//manual deselection
+        if (self.lastSelectedCellIndexPath == nil) {//selecting a cell, with no  selection elsewhere
+            [self expandExerciseCellAtIndexPath:indexPath];
+            self.lastSelectedCellIndexPath = indexPath;
+        } else if ([self.lastSelectedCellIndexPath isEqual:indexPath]) {//selecting a cell that's already selected
             [self collapseExerciseCellAtIndexPath:indexPath];
-        } else {
+            [self.entryTableView deselectRowAtIndexPath:indexPath animated:YES];
+            self.lastSelectedCellIndexPath = nil;
+            [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
+        } else { //selecting a cell, with another cell first selected
+            [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
             [self expandExerciseCellAtIndexPath:indexPath]; //for current index path
+            self.lastSelectedCellIndexPath = indexPath;
         }
-        [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
 
         self.currentExercise = entryCellData.attributes[@"Exercise Name"];
         [self.repsAndWeightKeyboardViewController.repsField resignFirstResponder];
@@ -281,7 +288,6 @@
     } else {
         [self slideRepsAndWeightKeyboardOut];
     }
-    self.lastSelectedCellIndexPath = indexPath;
 }
 
 //
