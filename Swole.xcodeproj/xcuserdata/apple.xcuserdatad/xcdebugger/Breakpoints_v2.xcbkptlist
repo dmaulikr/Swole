@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Swole/ViewControllers/EntryViewController2.m"
-            timestampString = "460273032.099468"
+            timestampString = "460304384.616167"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -346,12 +346,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Swole/Data Classes/EntryCellData.m"
-            timestampString = "460273445.066867"
+            timestampString = "460304384.616167"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "+hideInfoOfExercise:InDataArray:"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "+ModifyInfoOfExercise:InDataArray:WithOperation:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -362,12 +362,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Swole/Data Classes/EntryCellData.m"
-            timestampString = "460273471.032784"
+            timestampString = "460304384.616167"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "+hideInfoOfExercise:InDataArray:"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "+ModifyInfoOfExercise:InDataArray:WithOperation:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -57,6 +57,7 @@
     return numHidden;
 }
 
+
 /**
  *  Given a data array and a selected exercise,
  *  returns an array with two items:
@@ -69,8 +70,7 @@
  *  @return data array with information for the selected exercise hidden
  */
 
-+ (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray {
-    
++ (NSArray *) modifyInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray  Hide:(BOOL)hide {
     NSMutableArray *arrayWithHiddenObjects = [[NSMutableArray alloc] initWithObjects: nil];
     NSMutableArray *arrayWithoutHiddenObjects = [[NSMutableArray alloc] initWithObjects: nil];
     
@@ -87,11 +87,10 @@
     indexOfDataArray++;
     entryCellData = dataArray[indexOfDataArray];
 
-    
     while (indexOfDataArray < [dataArray count] && entryCellData.type == INFORMATION) {//process only info
         entryCellData = dataArray[indexOfDataArray];
         NSMutableDictionary *infoAttributes = [entryCellData.attributes mutableCopy];
-        [infoAttributes setValue:[NSNumber numberWithBool:YES] forKey:@"Hidden"];
+        [infoAttributes setValue:[NSNumber numberWithBool:hide] forKey:@"Hidden"];
         entryCellData.attributes = [infoAttributes copy];
         [arrayWithHiddenObjects addObject:entryCellData];
         indexOfDataArray++;

@@ -190,14 +190,17 @@
 }
 
 - (void) collapseExerciseCellGivenExercise: (EntryCellData *)exercise {
-    NSArray *resultArray = [EntryCellData hideInfoOfExercise: exercise InDataArray:self.data];
+    NSArray *resultArray = [EntryCellData modifyInfoOfExercise:exercise InDataArray:self.data Hide:YES];
     self.data = resultArray[0];
     self.dataWithoutHiddenExercises = resultArray[1];
     [self.entryTableView reloadData];
 }
 
-- (void) expandExerciseCellAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void) expandExerciseCellGivenExercise: (EntryCellData *)exercise {
+    NSArray *resultArray = [EntryCellData modifyInfoOfExercise:exercise InDataArray:self.data Hide:NO];
+    self.data = resultArray[0];
+    self.dataWithoutHiddenExercises = resultArray[1];
+    [self.entryTableView reloadData];
 }
 
 
@@ -254,7 +257,7 @@
     EntryCellData *entryCellData = self.dataWithoutHiddenExercises[indexPath.row];
     if (entryCellData.type == EXERCISE) {
         if (self.lastSelectedCellIndexPath == nil) {//selecting a cell, with no  selection elsewhere
-            [self expandExerciseCellAtIndexPath:indexPath];
+            [self expandExerciseCellGivenExercise:self.dataWithoutHiddenExercises[indexPath.row]];
             self.lastSelectedCellIndexPath = indexPath;
         } else if ([self.lastSelectedCellIndexPath isEqual:indexPath]) {//selecting a cell that's already selected
             [self collapseExerciseCellGivenExercise: self.dataWithoutHiddenExercises[indexPath.row]];
@@ -262,7 +265,7 @@
             self.lastSelectedCellIndexPath = nil;
         } else { //selecting a cell, with another cell first selected
             [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
-            [self expandExerciseCellAtIndexPath:indexPath]; //for current index path
+            [self expandExerciseCellGivenExercise:self.dataWithoutHiddenExercises[indexPath.row]]; //for current index path
             self.lastSelectedCellIndexPath = indexPath;
         }
         self.currentExercise = entryCellData.attributes[@"Exercise Name"];
