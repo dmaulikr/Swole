@@ -81,7 +81,9 @@
     }
     
     EntryCellData *entryCellData = dataArray[indexOfDataArray];//the selected exercise, at this point in execution
-    
+    NSMutableDictionary *exerciseAttributes = [entryCellData.attributes mutableCopy];
+    [exerciseAttributes setValue:[NSNumber numberWithBool:hide] forKey:@"Hidden"];
+    entryCellData.attributes = [exerciseAttributes copy];
     
     [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
     indexOfDataArray++;
@@ -110,10 +112,6 @@
     
     return [[NSArray alloc] initWithObjects: [arrayWithHiddenObjects copy], [arrayWithoutHiddenObjects copy], nil];
 }
-
-//+ (NSArray *)showInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray {
-//    
-//}
 
 + (NSArray *)convertEntryToEntryCellDataArray:(Entry *)entry {
     NSMutableArray *cellDataArray = [[NSMutableArray alloc] initWithObjects: nil];
