@@ -30,10 +30,12 @@
 @implementation EntryViewController2
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithEntry:(Entry *)entry {
-    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    self.entry = entry;
-    self.exerciseNames = [entry exerciseNames];
-    self.exercises = [entry exercises];
+    self = [[EntryViewController2 alloc] initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.entry = entry;
+        self.exerciseNames = [entry exerciseNames];
+        self.exercises = [entry exercises];
+    }
     return self;
 }
 
@@ -112,6 +114,7 @@
 - (void) loadData {
     if (self.entry) {
         self.data = [EntryCellData convertEntryToEntryCellDataArray: self.entry];
+        self.dataWithoutHiddenExercises = self.data;
     } else {
         [NSException raise:@"Invalid Entry Exception" format:@"No entry object exists for conversion!"];
     }
@@ -186,8 +189,10 @@
     entryCellData.attributes = [mutableAttributes copy];
 }
 
-- (void) collapseExerciseCellAtIndexPath:(NSIndexPath *)indexPath {
-    self.data = [EntryCellData hideInfoOfExercise: self.data[indexPath.row] InDataArray:self.data];
+- (void) collapseExerciseCellGivenExercise: (EntryCellData *)exercise {
+    NSArray *resultArray = [EntryCellData hideInfoOfExercise: exercise InDataArray:self.data];
+    self.data = resultArray[0];
+    self.dataWithoutHiddenExercises = resultArray[1];
     [self.entryTableView reloadData];
 }
 
@@ -245,36 +250,16 @@
     }
 }
 
-//- (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if([tableView indexPathForSelectedRow] == indexPath) {
-//        EntryCellData *entryCellData = self.data[indexPath.row];
-//        NSMutableArray *mutableAttributes = [entryCellData.attributes mutableCopy];
-//        [mutableAttributes setValue:@"Collapsed" forKey:@"State"];
-//        entryCellData.attributes = [mutableAttributes copy];
-//        [self slideRepsAndWeightKeyboardOut];
-//        [self.entryTableView reloadData];
-//        return nil;
-//    } else {
-//        EntryCellData *entryCellData = self.data[indexPath.row];
-//        NSMutableArray *mutableAttributes = [entryCellData.attributes mutableCopy];
-//        [mutableAttributes setValue:@"Expanded" forKey:@"State"];
-//        entryCellData.attributes = [mutableAttributes copy];
-//        return indexPath;
-//    }
-//}
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    EntryCellData *entryCellData = self.data[indexPath.row];
+    EntryCellData *entryCellData = self.dataWithoutHiddenExercises[indexPath.row];
     if (entryCellData.type == EXERCISE) {
         if (self.lastSelectedCellIndexPath == nil) {//selecting a cell, with no  selection elsewhere
             [self expandExerciseCellAtIndexPath:indexPath];
             self.lastSelectedCellIndexPath = indexPath;
         } else if ([self.lastSelectedCellIndexPath isEqual:indexPath]) {//selecting a cell that's already selected
-            [self collapseExerciseCellAtIndexPath:indexPath];
+            [self collapseExerciseCellGivenExercise: self.dataWithoutHiddenExercises[indexPath.row]];
             [self.entryTableView deselectRowAtIndexPath:indexPath animated:YES];
             self.lastSelectedCellIndexPath = nil;
-            [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
         } else { //selecting a cell, with another cell first selected
             [self.entryTableView deselectRowAtIndexPath:self.lastSelectedCellIndexPath animated:YES];
             [self expandExerciseCellAtIndexPath:indexPath]; //for current index path
@@ -289,25 +274,17 @@
     }
 }
 
-//
-//- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-//        //call collapse cell here - finish
-//    [self toggleCollapseOrExpandExercise:self.data[indexPath.row]];
-//    [self.entryTableView reloadData];
-//}
-
 // You may only select EXERCISE cells
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    EntryCellData *entryCellData = (EntryCellData *) self.data[indexPath.row];
+    EntryCellData *entryCellData = (EntryCellData *) self.dataWithoutHiddenExercises[indexPath.row];
     return entryCellData.type == EXERCISE;
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    self.numberHidden =[EntryCellData countHidden:self.data];
-    return [self.data count] - self.numberHidden;
+    return [self.dataWithoutHiddenExercises count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -322,20 +299,8 @@
     }
     
     
-    EntryCellData *entryCellData = self.data[indexPath.row]; //self.numberHidden is initially 0
+    EntryCellData *entryCellData = self.dataWithoutHiddenExercises[indexPath.row]; //self.numberHidden is initially 0
     NSDictionary *cellAttributes = entryCellData.attributes;
-    
-    if (entryCellData.type == INFORMATION) {
-        BOOL hidden = [entryCellData.attributes[@"Hidden"] boolValue];
-        if (hidden) {
-            self.shouldOffsetByNumberHidden = YES;
-        }
-    }
-    
-    if (self.shouldOffsetByNumberHidden) {
-        entryCellData = self.data[indexPath.row + self.numberHidden];
-        cellAttributes = entryCellData.attributes;
-    }
     
     //filling the text in textfields
     if (entryCellData.type == DESCRIPTION) {

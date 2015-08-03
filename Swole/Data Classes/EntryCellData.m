@@ -58,9 +58,10 @@
 }
 
 /**
- *  Given a data array and a selected exercises, 
- *  returns the same data array but hides the information
- *  under the given exercise.
+ *  Given a data array and a selected exercise,
+ *  returns an array with two items:
+ *  the original array with corresponding INFORMATION objects with the HIDDEN attribute set to YES,
+ *  and an array without those INFORMATION.
  *
  *  @param exercise  selected exercise
  *  @param dataArray data for a given entry
@@ -68,35 +69,53 @@
  *  @return data array with information for the selected exercise hidden
  */
 
-//some issues here. look here. current
 + (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray {
-    NSMutableArray *hiddeInfoMutableArray = [[NSMutableArray alloc] initWithObjects: nil];
+    
+    NSMutableArray *arrayWithHiddenObjects = [[NSMutableArray alloc] initWithObjects: nil];
+    NSMutableArray *arrayWithoutHiddenObjects = [[NSMutableArray alloc] initWithObjects: nil];
+    
     int indexOfDataArray = 0;
     while (![dataArray[indexOfDataArray] isEqual: exercise]) {//add everything up until the exercise
-        [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
+        [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
         indexOfDataArray++;
     }
     
     EntryCellData *entryCellData = dataArray[indexOfDataArray];//the selected exercise, at this point in execution
-    do {
-        if (entryCellData.type == INFORMATION) {//process only info
-            NSMutableDictionary *infoAttributes = [entryCellData.attributes mutableCopy];
-            [infoAttributes setValue:[NSNumber numberWithBool:YES] forKey:@"Hidden"];
-            entryCellData.attributes = [infoAttributes copy];
-        }
-        [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
-        indexOfDataArray++;
-        entryCellData = dataArray[indexOfDataArray];
-    } while (entryCellData.type == INFORMATION);
     
-    while (indexOfDataArray < [dataArray count]) {//add everything else
-        [hiddeInfoMutableArray addObject:dataArray[indexOfDataArray]];
+    
+    [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
+    indexOfDataArray++;
+    entryCellData = dataArray[indexOfDataArray];
+
+    
+    while (indexOfDataArray < [dataArray count] && entryCellData.type == INFORMATION) {//process only info
+        entryCellData = dataArray[indexOfDataArray];
+        NSMutableDictionary *infoAttributes = [entryCellData.attributes mutableCopy];
+        [infoAttributes setValue:[NSNumber numberWithBool:YES] forKey:@"Hidden"];
+        entryCellData.attributes = [infoAttributes copy];
+        [arrayWithHiddenObjects addObject:entryCellData];
         indexOfDataArray++;
     }
     
-    return [hiddeInfoMutableArray copy];
+    while (indexOfDataArray < [dataArray count]) {//add everything else
+        [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
+        indexOfDataArray++;
+    }
+    
+    //add only items that aren't hidden
+    for (EntryCellData *entryCellData in arrayWithHiddenObjects) {
+        if (!(entryCellData.type == INFORMATION && [entryCellData.attributes[@"Hidden"] boolValue] == YES)) {
+            [arrayWithoutHiddenObjects addObject:entryCellData];
+        }
+    }
+    
+    return [[NSArray alloc] initWithObjects: [arrayWithHiddenObjects copy], [arrayWithoutHiddenObjects copy], nil];
 }
- 
+
+//+ (NSArray *)showInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray {
+//    
+//}
+
 + (NSArray *)convertEntryToEntryCellDataArray:(Entry *)entry {
     NSMutableArray *cellDataArray = [[NSMutableArray alloc] initWithObjects: nil];
     

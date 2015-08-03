@@ -22,6 +22,7 @@
 @property NSArray *buttonArray;
 @property CustomIOSAlertView *entryAlertView;
 @property AddEntryAlertViewController *addEntryAlertViewController;
+@property EntryViewController2 *entryViewController2;
 @property EntryList *entryList;
 @property Entry *entry;
 @property NSMutableDictionary *entries;

@@ -43,13 +43,12 @@
  */
 @property Entry *entry;
 @property NSArray *data; //an array of cellDataObjects corresponding to each cell in entryTableView
+@property NSArray *dataWithoutHiddenExercises;
 @property NSMutableArray *exerciseNames;
 @property NSMutableDictionary *exercises;
 @property NSString *currentExercise;
 @property NSIndexPath *currentExerciseCellIndexPath;
 @property NSIndexPath *lastSelectedCellIndexPath;
-@property NSUInteger numberHidden;
-@property BOOL shouldOffsetByNumberHidden;
 
 /**
  *  Methods that help set-up.

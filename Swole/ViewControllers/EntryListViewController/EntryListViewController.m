@@ -259,9 +259,9 @@
     
     //set-up views
     [self.entryAlertView close];
-    EntryViewController2 *entryViewController2 = [[EntryViewController2 alloc] initWithNibName:@"EntryViewController2" bundle:nil WithEntry:entry];
-    entryViewController2.entryListViewControllerDelegate = self;
-    [self.navigationController pushViewController:entryViewController2 animated:NO];
+    self.entryViewController2 = [[EntryViewController2 alloc] initWithNibName:@"EntryViewController2" bundle:nil WithEntry:entry];
+    self.entryViewController2.entryListViewControllerDelegate = self;
+    [self.navigationController pushViewController:self.entryViewController2 animated:NO];
     [self.calendar reloadData];//update calendar
 }
 
@@ -337,21 +337,21 @@
 - (void)showEntryView:(NSString *)dateStr{
     Entry *entry = self.entries[dateStr];
     
-    EntryViewController2 *entryViewController2 = [[EntryViewController2 alloc] initWithNibName:@"EntryViewController2" bundle:nil WithEntry:entry];
+    self.entryViewController2 = [[EntryViewController2 alloc] initWithNibName:@"EntryViewController2" bundle:nil WithEntry:entry];
     //set entry and delegate
-    entryViewController2.entryListViewControllerDelegate = self;
-    [self.navigationController pushViewController:entryViewController2 animated:YES];
+    self.entryViewController2.entryListViewControllerDelegate = self;
+    [self.navigationController pushViewController:self.entryViewController2 animated:YES];
 }
 
 //test
 - (void)showEntryView2{
-    EntryViewController2 *entryViewController2 = [[EntryViewController2 alloc] initWithNibName:@"EntryViewController2" bundle:nil];
+    self.entryViewController2 = [[EntryViewController2 alloc] initWithNibName:@"EntryViewController2" bundle:nil];
 //    
 //    NSMutableDictionary *entries = [_entryList entries];
 //    Entry *entry = entries[dateStr];
 //    
 //    entryViewController2.entry = entry;
-    [self.navigationController pushViewController:entryViewController2 animated:YES];
+    [self.navigationController pushViewController:self.entryViewController2 animated:YES];
 
 }
 /**

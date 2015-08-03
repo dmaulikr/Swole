@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, EntryCellDataType) {
 
 + (NSUInteger) countHidden:(NSArray *)dataArray;
 + (NSArray *)hideInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray;
++ (NSArray *)showInfoOfExercise:(EntryCellData *)exercise InDataArray:(NSArray *)dataArray;
 
 /**
  *  Given an Entry object, produces an array of EntryCellData that can be
