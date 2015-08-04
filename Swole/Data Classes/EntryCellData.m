@@ -75,21 +75,23 @@
     NSMutableArray *arrayWithoutHiddenObjects = [[NSMutableArray alloc] initWithObjects: nil];
     
     int indexOfDataArray = 0;
-    while (![dataArray[indexOfDataArray] isEqual: exercise]) {//add everything up until the exercise
+    while (![dataArray[indexOfDataArray] isEqual: exercise]) {//add all data up until the selected exercise
         [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
         indexOfDataArray++;
     }
     
-    EntryCellData *entryCellData = dataArray[indexOfDataArray];//the selected exercise, at this point in execution
+    EntryCellData *entryCellData = dataArray[indexOfDataArray]; //modify the exercise to either hidden (collapsed) or not hidden (expanded)
     NSMutableDictionary *exerciseAttributes = [entryCellData.attributes mutableCopy];
     [exerciseAttributes setValue:[NSNumber numberWithBool:hide] forKey:@"Hidden"];
     entryCellData.attributes = [exerciseAttributes copy];
     
-    [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
+    [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]]; // add the selected exercise
     indexOfDataArray++;
-    entryCellData = dataArray[indexOfDataArray];
-
-    while (indexOfDataArray < [dataArray count] && entryCellData.type == INFORMATION) {//process only info
+    
+    if (indexOfDataArray < [dataArray count]) { //if any data comes after
+        entryCellData = dataArray[indexOfDataArray];
+    }
+    while (indexOfDataArray < [dataArray count] && entryCellData.type == INFORMATION) {//and its of INFORMATION type, process them
         entryCellData = dataArray[indexOfDataArray];
         NSMutableDictionary *infoAttributes = [entryCellData.attributes mutableCopy];
         [infoAttributes setValue:[NSNumber numberWithBool:hide] forKey:@"Hidden"];
@@ -98,7 +100,7 @@
         indexOfDataArray++;
     }
     
-    while (indexOfDataArray < [dataArray count]) {//add everything else
+    while (indexOfDataArray < [dataArray count]) {//then add everything else
         [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
         indexOfDataArray++;
     }

@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>E79009A6-4965-4C93-AA30-CAE73225D903</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Swole</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>A08A37B3AB461C982F8685CA0F567C13FD281ECA</key>
 		<string>https://github.com/v-y-l/Swole.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Swole.xcodeproj/project.xcworkspace</string>
+	<string>Swole.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>A08A37B3AB461C982F8685CA0F567C13FD281ECA</key>
