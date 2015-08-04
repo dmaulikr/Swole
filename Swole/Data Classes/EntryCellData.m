@@ -130,7 +130,7 @@
     NSMutableDictionary *exercises = [entry exercises];
     
     //Allocate space for objects
-    NSDictionary *exerciseAttributes;
+    NSMutableDictionary *exerciseAttributes;
     NSDictionary *informationAttributes;
     EntryCellData *exerciseCellData;
     EntryCellData *infoCellData;
@@ -140,20 +140,28 @@
     //Process exercises
     for (NSString *exerciseName in exerciseNames) {
         setNumber = 1;
-        exerciseAttributes = [[NSDictionary alloc] initWithObjectsAndKeys: exerciseName, @"Exercise Name", @"Expanded", @"State", nil];
-        exerciseCellData = [[EntryCellData alloc] initExerciseWithAttributes: exerciseAttributes];
-        [cellDataArray addObject: exerciseCellData];
+        exerciseAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys: exerciseName, @"Exercise Name", [NSNumber numberWithBool:NO], @"Hidden", nil];
+        exerciseCellData = [[EntryCellData alloc] initExerciseWithAttributes: [exerciseAttributes copy]];
+        [cellDataArray addObject: exerciseCellData];//redundant to use this constructor, need to modify
+
         
         //starting location
         
         //Process individual exercises
         NSMutableArray *infoArray = exercises[exerciseName];
+        int numberOfInfo = 0;
         for (Information *info in infoArray) {
             informationAttributes = [[NSDictionary alloc] initWithObjectsAndKeys: info.reps, @"Reps", info.weight, @"Weight", exerciseName, @"Parent Exercise Name", [NSNumber numberWithInt:setNumber], @"Set Number", [NSNumber numberWithBool:NO], @"Hidden", nil];
             infoCellData = [[EntryCellData alloc] initInformationWithAttributes:informationAttributes];
             [cellDataArray addObject:infoCellData];
             setNumber++;
+            numberOfInfo++;
         }
+
+        [exerciseAttributes setValue: [NSNumber numberWithInt:numberOfInfo] forKey:@"Number of sets"];
+        exerciseCellData.attributes = [exerciseAttributes copy];
+
+        
     }
     
     return [cellDataArray copy];

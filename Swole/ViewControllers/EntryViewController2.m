@@ -239,13 +239,31 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     EntryCellData *entryCellData = self.dataWithoutHiddenExercises[indexPath.row];
     if (entryCellData.type == EXERCISE) {
-        [self toggleCollapseOrExpandExercise:entryCellData];
-        self.currentExercise = entryCellData.attributes[@"Exercise Name"];
+
+        if ([self.lastSelectedCellIndexPath isEqual: indexPath]) {//case 1: manually deselecting, implies that you already selected it before,
+            if (!([entryCellData.attributes[@"Number of sets"] intValue] == 0)) {//and if your exercise has sets
+                [self toggleCollapseOrExpandExercise:entryCellData];//it means you'll call collapse here
+            }
+            [self.entryTableView deselectRowAtIndexPath:indexPath animated:YES];
+            [self slideRepsAndWeightKeyboardOut];
+            self.lastSelectedCellIndexPath = nil;//after you manually deselect, nothing is selected
+        } else if (![self.lastSelectedCellIndexPath isEqual: indexPath] || [entryCellData.attributes[@"Number of sets"] intValue] == 0) {//case 2: freely select a cell when there's no external focus
+            self.lastSelectedCellIndexPath = indexPath; //save the selection
+            if ([entryCellData.attributes[@"Hidden"] boolValue] == YES) {
+                [self toggleCollapseOrExpandExercise:entryCellData];
+                [self.entryTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+            }
+            [self slideRepsAndWeightKeyboardIn];
+        } else {
+            [self toggleCollapseOrExpandExercise:entryCellData];//the remaining option that's already collapsed to expand it
+            [self.entryTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+            self.lastSelectedCellIndexPath = indexPath; //save the selection
+            [self slideRepsAndWeightKeyboardIn];
+        }
+
+        self.currentExercise = entryCellData.attributes[@"Exercise Name"]; //save the name of the current exercise to add information to
         [self.repsAndWeightKeyboardViewController.repsField resignFirstResponder];
         [self.repsAndWeightKeyboardViewController.weightField resignFirstResponder];
-        [self slideRepsAndWeightKeyboardIn];
-    } else {
-        [self slideRepsAndWeightKeyboardOut];
     }
 }
 
