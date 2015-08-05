@@ -75,12 +75,12 @@
     NSMutableArray *arrayWithoutHiddenObjects = [[NSMutableArray alloc] initWithObjects: nil];
     
     int indexOfDataArray = 0;
-    while (![dataArray[indexOfDataArray] isEqual: exercise]) {//add all data up until the selected exercise
+    while (![dataArray[indexOfDataArray] isEqual: exercise]) {//step 1: add all data but stop at selected exercise
         [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
         indexOfDataArray++;
     }
     
-    EntryCellData *entryCellData = dataArray[indexOfDataArray]; //modify the exercise to either hidden (collapsed) or not hidden (expanded)
+    EntryCellData *entryCellData = dataArray[indexOfDataArray]; //step 2: modify the exercise to either hidden (collapsed) or not hidden (expanded)
     NSMutableDictionary *exerciseAttributes = [entryCellData.attributes mutableCopy];
     [exerciseAttributes setValue:[NSNumber numberWithBool:hide] forKey:@"Hidden"];
     entryCellData.attributes = [exerciseAttributes copy];
@@ -90,16 +90,18 @@
     
     if (indexOfDataArray < [dataArray count]) { //if any data comes after
         entryCellData = dataArray[indexOfDataArray];
-    }
+    } //step 3: modify the exercise's information accordingly
     while (indexOfDataArray < [dataArray count] && entryCellData.type == INFORMATION) {//and its of INFORMATION type, process them
-        entryCellData = dataArray[indexOfDataArray];
         NSMutableDictionary *infoAttributes = [entryCellData.attributes mutableCopy];
         [infoAttributes setValue:[NSNumber numberWithBool:hide] forKey:@"Hidden"];
         entryCellData.attributes = [infoAttributes copy];
         [arrayWithHiddenObjects addObject:entryCellData];
         indexOfDataArray++;
+        if (indexOfDataArray < [dataArray count]) { //if any data comes after
+            entryCellData = dataArray[indexOfDataArray];
+        }
     }
-    
+    //step 4: add everything else
     while (indexOfDataArray < [dataArray count]) {//then add everything else
         [arrayWithHiddenObjects addObject:dataArray[indexOfDataArray]];
         indexOfDataArray++;
