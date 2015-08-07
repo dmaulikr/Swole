@@ -417,7 +417,7 @@
             NSMutableArray *exerciseNames = [self.entry exerciseNames];
             NSString *exerciseName = exerciseNames[indexPath.row - 1];
             NSUInteger numberOfExercises = [exercises[exerciseName] count];
-            NSString *numberOfExercisesString = numberOfExercises != 1 ? [NSString stringWithFormat: @", %d sets", numberOfExercises ] : @", 1 set";
+            NSString *numberOfExercisesString = numberOfExercises != 1 ? [NSString stringWithFormat: @", %lu sets", numberOfExercises ] : @", 1 set";
             cell.mainLabel.text = [NSString stringWithFormat:@"  \u2219 %@ %@",  exerciseName, numberOfExercises == 0 ? @"" : numberOfExercisesString];
             cell.mainLabel.textAlignment = NSTextAlignmentLeft;
 

@@ -93,7 +93,7 @@
 
 #pragma mark - Loading
 
-- (void) loadRepsAndWeightKeyboard {
+- (void) loadRepsAndWeightKeyboard { //put reps and weight keyboard in a container
     self.repsAndWeightKeyboardViewController = [[RepsAndWeightKeyboardViewController alloc] initWithNibName:@"RepsAndWeightKeyboardViewController" bundle:nil];
     self.repsAndWeightKeyboardViewController.entryViewController2Delegate = self;
     [self addChildViewController:self.repsAndWeightKeyboardViewController];
@@ -190,14 +190,17 @@
 #pragma mark - Button Actions
 
 - (void) doCreateExerciseAlertView {
-    self.exerciseAlertView = [[CustomIOSAlertView alloc] init];
-    self.addExerciseAlertViewController2 =  [[AddExerciseAlertViewController2 alloc] initWithNibName:@"AddExerciseAlertViewController2" bundle:nil];
+//    self.exerciseAlertView = [[CustomIOSAlertView alloc] init];
+//    self.addExerciseAlertViewController2 =  [[AddExerciseAlertViewController2 alloc] initWithNibName:@"AddExerciseAlertViewController2" bundle:nil];
+//    
+//    self.addExerciseAlertViewController2.entryViewController2Delegate = self;
+//    self.exerciseAlertView.containerView = self.addExerciseAlertViewController2.view;
+//    self.exerciseAlertView.buttonTitles = nil;
+//    self.exerciseAlertView.useMotionEffects = YES;
+//    [self.exerciseAlertView show];
     
-    self.addExerciseAlertViewController2.entryViewController2Delegate = self;
-    self.exerciseAlertView.containerView = self.addExerciseAlertViewController2.view;
-    self.exerciseAlertView.buttonTitles = nil;
-    self.exerciseAlertView.useMotionEffects = YES;
-    [self.exerciseAlertView show];
+    self.addExerciseViewController = [[AddExerciseViewController alloc] initWithNibName:@"AddExerciseViewController" bundle:nil];
+    [self.navigationController pushViewController:self.addExerciseViewController animated:YES];
     [self slideRepsAndWeightKeyboardOut];
 }
 

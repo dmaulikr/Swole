@@ -115,6 +115,8 @@
 		07DB2F251B58FA09005B3E0D /* Rename Filled-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 07DB2F241B58FA09005B3E0D /* Rename Filled-64.png */; };
 		07DB2F271B58FA8D005B3E0D /* Past Filled-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 07DB2F261B58FA8D005B3E0D /* Past Filled-64.png */; };
 		07DB2F291B58FB83005B3E0D /* Waste Filled-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 07DB2F281B58FB83005B3E0D /* Waste Filled-32.png */; };
+		185D19681B74AA530034B78D /* AddExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185D19661B74AA530034B78D /* AddExerciseViewController.m */; };
+		185D19691B74AA530034B78D /* AddExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185D19671B74AA530034B78D /* AddExerciseViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -299,6 +301,9 @@
 		07DB2F241B58FA09005B3E0D /* Rename Filled-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rename Filled-64.png"; sourceTree = "<group>"; };
 		07DB2F261B58FA8D005B3E0D /* Past Filled-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Past Filled-64.png"; sourceTree = "<group>"; };
 		07DB2F281B58FB83005B3E0D /* Waste Filled-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Waste Filled-32.png"; sourceTree = "<group>"; };
+		185D19651B74AA530034B78D /* AddExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddExerciseViewController.h; sourceTree = "<group>"; };
+		185D19661B74AA530034B78D /* AddExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddExerciseViewController.m; sourceTree = "<group>"; };
+		185D19671B74AA530034B78D /* AddExerciseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddExerciseViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -555,6 +560,7 @@
 				07D294971B60B9250040C824 /* EntryViewController2 */,
 				07D294981B60B92F0040C824 /* AddExerciseAlertViewController2 */,
 				07D294991B60B93C0040C824 /* RepsAndWeightKeyboardViewController */,
+				185D196A1B74AA6F0034B78D /* AddExerciseViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -768,6 +774,16 @@
 			name = SpringTableViewCell;
 			sourceTree = "<group>";
 		};
+		185D196A1B74AA6F0034B78D /* AddExerciseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				185D19651B74AA530034B78D /* AddExerciseViewController.h */,
+				185D19661B74AA530034B78D /* AddExerciseViewController.m */,
+				185D19671B74AA530034B78D /* AddExerciseViewController.xib */,
+			);
+			name = AddExerciseViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -874,6 +890,7 @@
 				073F54F01B5F6CFE007892B4 /* Create New-50.png in Resources */,
 				07DA84E61B578D5700EC07C7 /* LoadingView.xib in Resources */,
 				07D0B9141B4CEA9500E6FDD1 /* Arrow Filled-32.png in Resources */,
+				185D19691B74AA530034B78D /* AddExerciseViewController.xib in Resources */,
 				07DA84E31B578D5700EC07C7 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -959,6 +976,7 @@
 				074BBD321B4D351B00831FA5 /* JBChartView.m in Sources */,
 				07DA84ED1B578D5700EC07C7 /* SpringLabel.swift in Sources */,
 				0780403B1B5CACEC00D677AC /* EntryCellData.m in Sources */,
+				185D19681B74AA530034B78D /* AddExerciseViewController.m in Sources */,
 				07DA84EC1B578D5700EC07C7 /* SpringImageView.swift in Sources */,
 				07DA84D91B578D5700EC07C7 /* AutoTextView.swift in Sources */,
 				075312811B4BD752001DBB33 /* RATableViewCell.m in Sources */,

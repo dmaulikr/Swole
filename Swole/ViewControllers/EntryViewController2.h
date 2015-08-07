@@ -18,6 +18,7 @@
 #import "AddExerciseAlertViewController2.h"
 #import "AddEntryAlertViewController.h"
 #import "RepsAndWeightKeyboardViewController.h"
+#import "AddExerciseViewController.h"
 
 @interface EntryViewController2 : UIViewController <UITableViewDataSource, UITableViewDelegate, EntryViewController2Delegate>
 
@@ -25,13 +26,14 @@
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil WithEntry:(Entry *)entry; //EntryViewController2 must be instantiated with an entry
 
 /**
- *  Views.
+ *  Views and Controllers.
  */
 @property (weak, nonatomic) IBOutlet UITableView *entryTableView;
 @property UIBarButtonItem *createExerciseBarButton;
 @property CustomIOSAlertView *exerciseAlertView; //save the pointer for dismissal
 @property AddExerciseAlertViewController2 *addExerciseAlertViewController2; //don't want the controller to deallocate when we need it
 @property RepsAndWeightKeyboardViewController *repsAndWeightKeyboardViewController;
+@property AddExerciseViewController *addExerciseViewController;
 
 /**
  *  Delegates.
